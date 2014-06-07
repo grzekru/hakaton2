@@ -1,14 +1,13 @@
-#!/usr/bin/python # -*- coding: utf-8 -*-
-
-''' Tfg '''
+# -*- coding: utf-8 -*-
 
 def train(bayes, item, cat):
 
-    ''' fg '''
+    cechy = bayes.get_features(item)
+    if cat not in bayes.class_count:
+        bayes.class_count[cat] = 0
+    bayes.class_count[cat] += 1
 
-    item = [(x, cat) for x in set(item.split())]
-
-    for ent in item:
-        bayes.feature_count[ent] = bayes.feature_count.get(ent, 0) + 1
-
-    bayes.class_count[cat] = bayes.class_count.get(cat, 0) + 1
+    for cecha in cechy:
+        if (cecha, cat) not in bayes.feature_count:
+            bayes.feature_count[(cecha, cat)] = 0
+        bayes.feature_count[(cecha, cat)] += 1

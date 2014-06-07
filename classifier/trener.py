@@ -17,6 +17,17 @@ lewakPaths = ["./artykuly/lewica/rozbrat/*.txt", "./artykuly/lewica/palikot/*.tx
 
 def getfeatures(text):
     """Funkcja do testów."""
+    text = text.lower();
+    text = re.sub("[\?\!\.\,\:\;$\'\"„”_\(\)\[\]…]", " ", text);
+    text = text.replace("ó", "o");
+    text = text.replace("ą", "a");
+    text = text.replace("ś", "s");
+    text = text.replace("ć", "c");
+    text = text.replace("ź", "z");
+    text = text.replace("ż", "z");
+    text = text.replace("ł", "l");
+    text = text.replace("ę", "e");
+    
     return list(set(text.split()))
         
 def trainArticleSet(bayes, paths, category):
@@ -28,7 +39,7 @@ def trainArticleSet(bayes, paths, category):
 
 bayes = NaiveBayes.NaiveBayes(getfeatures)
 
-bayes = trainArticleSet(bayes, lewakPaths, "lewak");
+bayes = trainArticleSet(bayes, lewakPaths, "lew");
 
 bayes = trainArticleSet(bayes, kucPaths, "kuc");
 
