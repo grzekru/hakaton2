@@ -28,7 +28,7 @@ def getfeatures(text):
     text = text.replace("ł", "l");
     text = text.replace("ę", "e");
     
-    return list(set(text.split()))
+    return list(text.split())
         
 def trainArticleSet(bayes, paths, category):
     for path in paths:
