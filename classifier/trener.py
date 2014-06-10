@@ -12,7 +12,10 @@ from Task901 import train
 kucPaths = ["./artykuly/prawica/JKM/*.txt", "./artykuly/prawica/holocher/*.txt"]
 lewakPaths = ["./artykuly/lewica/rozbrat/*.txt", "./artykuly/lewica/palikot/*.txt"]
 
-
+def recursive_glob(rootdir='.', suffix=''):
+    return [os.path.join(rootdir, filename)
+            for rootdir, dirnames, filenames in os.walk(rootdir)
+            for filename in filenames if filename.endswith(suffix)]
 
 
 def getfeatures(text):
@@ -39,10 +42,12 @@ def trainArticleSet(bayes, paths, category):
 
 bayes = NaiveBayes.NaiveBayes(getfeatures)
 
-bayes = trainArticleSet(bayes, lewakPaths, "lew");
+'''bayes = trainArticleSet(bayes, lewakPaths, "lew");'''
+bayes = trainArticleSet(bayes, recursive_glob("./artykuly/lewica", ".txt"), "lew");
+bayes = trainArticleSet(bayes, recursive_glob("./artykuly/prawica", ".txt"), "kuc");
 
-bayes = trainArticleSet(bayes, kucPaths, "kuc");
-
+"""bayes = trainArticleSet(bayes, recursive_glob("./artykuly/prawica/nczas", "*.txt"), "kuc");
+"""
 outFile = open('featureCount.txt', 'wb')
 buff = str(bayes.feature_count)
 outFile.write(bytes(buff, 'UTF-8'))
